@@ -1,0 +1,154 @@
+.modal-dialog {
+    max-width: 800px;
+}
+.bootgrid-table td {
+	overflow: visible !important;
+}
+
+.modal-header {
+	background-color: #e3e4e6;	
+}
+
+.frow {
+	margin-bottom: 10px;
+}
+
+.error {
+	font-size: 11px;
+}
+
+#form-button-group{
+	margin-top: 10px;
+	margin-bottom: 10px;	
+}
+
+#umid,
+#umname {
+	background-color: #FFFFFF !important;
+}
+
+#memberTel {
+	background-color: #FFFFFF !important;
+}
+
+#umemberTel {
+	background-color: #FFFFFF !important;
+}
+
+#mbrsStart {
+	background-color: #FFFFFF !important;
+}
+
+#mbrsEnd {
+	background-color: #FFFFFF !important;
+}
+
+#umbrsStart {
+	background-color: #FFFFFF !important;
+}
+
+#umbrsEnd {
+	background-color: #FFFFFF !important;
+}
+
+#scheduleMember {
+	background-color: #FFFFFF !important;
+}
+
+#scheduleTrainer {
+	background-color: #FFFFFF !important;
+}
+
+#btn_submit_insert {
+	margin-left: 15px;
+}
+
+#btn_submit_update {
+	margin-left: 15px;
+}
+
+#idCheckBox,
+#timeCheckBox,
+#utimeCheckBox {
+	height: 33.5px;
+	visibility: hidden;
+}
+
+#grid-selection-header > div > div > div.actions.btn-group,
+#grid-selection1-header > div > div > div.actions.btn-group,
+#grid-selection2-header > div > div > div.actions.btn-group,
+#grid-selection3-header > div > div > div.actions.btn-group,
+#grid-selection4-header > div > div > div.actions.btn-group {
+	display: none;
+}
+   
+#idList {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 2.5px;
+	margin-right: 2.5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius: 5px;
+	border: 1px solid #e3e4e6;
+}
+
+#memberList {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-bottom-left-radius : 5px;
+	border-top-left-radius: 5px;
+	border-top: 1px solid #e3e4e6;
+	border-bottom: 1px solid #e3e4e6;
+	border-left: 1px solid #e3e4e6;;
+}
+
+#trainerList {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-top: 1px solid #e3e4e6;
+	border-bottom: 1px solid #e3e4e6;
+	border-right: 1px solid #e3e4e6;
+	border-left: 1px solid #e3e4e6;
+}
+
+#memberList2 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-bottom-left-radius : 5px;
+	border-top-left-radius: 5px;
+	border-top: 1px solid #e3e4e6;
+	border-bottom: 1px solid #e3e4e6;
+	border-left: 1px solid #e3e4e6;;
+}
+
+#trainerList2 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-top: 1px solid #e3e4e6;
+	border-bottom: 1px solid #e3e4e6;
+	border-right: 1px solid #e3e4e6;
+	border-left: 1px solid #e3e4e6;
+}

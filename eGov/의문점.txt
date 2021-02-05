@@ -1,0 +1,85 @@
+There are several differences between HashMap and Hashtable in Java:
+
+1. Hashtable is synchronized, whereas HashMap is not. This makes HashMap better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
+
+2. Hashtable does not allow null keys or values. HashMap allows one null key and any number of null values.
+
+3. One of HashMap's subclasses is LinkedHashMap, so in the event that you'd want predictable iteration order (which is insertion order by default), you could easily swap out the HashMap for a LinkedHashMap. This wouldn't be as easy if you were using Hashtable.
+
+Since synchronization is not an issue for you, I'd recommend HashMap. If synchronization becomes an issue, you may also look at ConcurrentHashMap.
+
+
+Q_Why is char[] preferred over String for passwords?
+
+*
+Strings are immutable. That means once you've created the String, if another process can dump memory, there's no way (aside from reflection) you can get rid of the data before garbage collection kicks in.
+
+With an array, you can explicitly wipe the data after you're done with it. You can overwrite the array with anything you like, and the password won't be present anywhere in the system, even before garbage collection.
+
+So yes, this is a security concern - but even using char[] only reduces the window of opportunity for an attacker, and it's only for this specific type of attack.
+
+As noted in the comments, it's possible that arrays being moved by the garbage collector will leave stray copies of the data in memory. I believe this is implementation-specific - the garbage collector may clear all memory as it goes, to avoid this sort of thing. Even if it does, there's still the time during which the char[] contains the actual characters as an attack window.
+
+*
+While other suggestions here seem valid, there is one other good reason. With plain String you have much higher chances of accidentally printing the password to logs, monitors or some other insecure place. char[] is less vulnerable.
+
+Consider this:
+
+public static void main(String[] args) {
+    Object pw = "Password";
+    System.out.println("String: " + pw);
+
+    pw = "Password".toCharArray();
+    System.out.println("Array: " + pw);
+}
+Prints:
+
+String: Password
+Array: [C@5829428e
+
+
+Q_ How do I efficiently iterate over each entry in a Java Map?
+
+*
+Map<String, String> map = ...
+for (Map.Entry<String, String> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + "/" + entry.getValue());
+}
+
+Q_ Creating a memory leak with Java
+
+*
+Here's a good way to create a true memory leak (objects inaccessible by running code but still stored in memory) in pure Java:
+
+1. The application creates a long-running thread (or use a thread pool to leak even faster).
+2. The thread loads a class via an (optionally custom) ClassLoader.
+3. The class allocates a large chunk of memory (e.g. new byte[1000000]), stores a strong reference to it in a static field, and then stores a reference to itself in a ThreadLocal. Allocating the extra memory is optional (leaking the Class instance is enough), but it will make the leak work that much faster.
+4. The thread clears all references to the custom class or the ClassLoader it was loaded from.
+5. Repeat.
+This works because the ThreadLocal keeps a reference to the object, which keeps a reference to its Class, which in turn keeps a reference to its ClassLoader. The ClassLoader, in turn, keeps a reference to all the Classes it has loaded.
+
+(It was worse in many JVM implementations, especially prior to Java 7, because Classes and ClassLoaders were allocated straight into permgen and were never GC'd at all. However, regardless of how the JVM handles class unloading, a ThreadLocal will still prevent a Class object from being reclaimed.)
+
+A variation on this pattern is why application containers (like Tomcat) can leak memory like a sieve if you frequently redeploy applications that happen to use ThreadLocals in any way. (Since the application container uses Threads as described, and each time you redeploy the application a new ClassLoader is used.)
+
+Update: Since lots of people keep asking for it, here's some example code that shows this behavior in action.
+
+Q_ java.util.Date vs java.sql.Date
+    java.util.Date vs java.sql.Date: when to use which and why?
+
+* Basically databases usually support at least three forms of datetime fields which are date, time and timestamp. Each of these have a corresponding class in JDBC and each of them extend java.util.Date. Quick semantics of each of these three are the following:
+
+java.sql.Date corresponds to SQL DATE which means it stores years, months and days while hour, minute, second and millisecond are ignored. Additionally sql.Date isn't tied to timezones.
+java.sql.Time corresponds to SQL TIME and as should be obvious, only contains information about hour, minutes, seconds and milliseconds.
+java.sql.Timestamp corresponds to SQL TIMESTAMP which is exact date to the nanosecond (note that util.Date only supports milliseconds!) with customizable precision.
+One of the most common bugs when using JDBC drivers in relation to these three types is that the types are handled incorrectly. This means that sql.Date is timezone specific, sql.Time contains current year, month and day et cetera et cetera.
+
+Finally: Which one to use?
+Depends on the SQL type of the field, really. PreparedStatement has setters for all three values, #setDate() being the one for sql.Date, #setTime() for sql.Time and #setTimestamp() for sql.Timestamp.
+
+Do note that if you use ps.setObject(fieldIndex, utilDateObject); you can actually give a normal util.Date to most JDBC drivers which will happily devour it as if it was of the correct type but when you request the data afterwards, you may notice that you're actually missing stuff.
+
+I'm really saying that none of the Dates should be used at all.
+What I am saying that save the milliseconds/nanoseconds as plain longs and convert them to whatever objects you are using (obligatory joda-time plug). One hacky way which can be done is to store the date component as one long and time component as another, for example right now would be 20100221 and 154536123. These magic numbers can be used in SQL queries and will be portable from database to another and will let you avoid this part of JDBC/Java Date API:s entirely.
+
+

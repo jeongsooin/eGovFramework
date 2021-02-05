@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="statisticsDAO">
+
+	<typeAlias alias="memberVO" type="gymManager.admin.member.MemberVO"/>
+	<typeAlias alias="trainerVO" type="gymManager.admin.trainer.TrainerVO"/>
+	<typeAlias alias="lockerVO" type="gymManager.admin.locker.LockerVO"/>
+	<typeAlias alias="scheduleVO" type="gymManager.admin.shcedule.ScheduleVO"/>
+	<typeAlias alias="diaryVO" type="gymManager.admin.diary.DiaryVO"/>
+	
+	<!-- MEMBER 테이블에 존재하는 모든 회원의 수 조회 -->
+	<select id="statisticsDAO.selectAllGenCount" resultClass="int">
+		SELECT   COUNT (*)
+		FROM     MEMBER
+	</select>
+	
+	<!-- 성별로 정렬한 회원 목록을 조회 -->
+	<select id="statisticsDAO.selectAllGenList" resultClass="memberVO">
+		SELECT   *
+		FROM     MEMBER
+		ORDER BY GEN    DESC
+	</select>
+	
+	<!-- MEMBER 테이블에 존재하는 남성 회원의 수 조회 -->
+	<select id="statisticsDAO.selectMaleGenCount" resultClass="int">
+		SELECT COUNT (*)
+		FROM   MEMBER
+		WHERE  GEN = 'M'
+	</select>
+	
+	<!-- LOCKER 테이블에서 배정된 회원이 존재하는 모든 사물함의 수 조회 -->	
+	<select id="statisticsDAO.selectUsedLockerCount" resultClass="lockerVO">
+		SELECT *
+		FROM   LOCKER
+		WHERE  MID != 0
+	</select>
+	
+	<!-- 특정 회원(MemberVO)의 이용권이 몇 개월동안 이용가능한지 조회한다 -->
+	<select id="statistics.selectMembershipDuration" parameterClass="memberVO" resultClass="int">
+		SELECT TIMESTAMPDIFF(MONTH, #mbrs_start#, #mbrs_end#) AS DURATION
+		FROM   MEMBER
+		WHERE  MID    = #mid#		
+	</select>
+	
+	<!-- 인자로 입력한 달(정수, month)에 등록한 회원의 정보를 조회 -->
+	<select id="statistics.selectMembershipMonth" parameterClass="int" resultClass="memberVO">
+		SELECT *
+		FROM   MEMBER
+		WHERE  MONTH(MBRS_START) = #month#
+	</select>
+	
+	<!-- 월 별 진행한 개인수업 횟수와 정보를 조회 -->
+	<select id="statisticsDAO.selectPTCountOfMonth" parameterClass="int" resultClass="scheduleVO">
+		SELECT    *
+        FROM      CLASS
+        WHERE     MONTH(CLASS_DATE) = #month#
+	</select>
+
+</sqlMap>

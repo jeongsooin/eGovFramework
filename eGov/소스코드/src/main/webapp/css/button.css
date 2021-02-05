@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+.button-area {
+	margin-bottom: 20px;
+	margin-right: 30px;
+	font-size: 14px;
+}
+
+.button-group {
+	margin-top: 17px;
+	margin-left: 10px;
+	text-align: right;
+	position: relative;
+	right: -80%;
+}
+
+#search-form {
+	color: black;
+	padding-left: 30px;
+	background-color: #e3e4e6;
+	border-radius: 10px;
+}
+
+#searchKey {
+	margin-top: 7px;
+}
+
+#search-button {
+	font-size: 1em;
+}
+
+#insert-button {
+	margin-left: 110px;
+	font-size: 1em;
+	color: black;
+	background-color: white;
+}
+
+#insert-schedule {
+	font-size: 1em;
+	color: black;
+	background-color: white;
+}
+
+#update-button,
+#update-schedule {
+	font-size: 1em;
+	color: black;
+	background-color: white;
+}
+
+#delete-button,
+#toggle-calendar {
+	font-size: 1em;
+	margin-bottom: 13px;
+	color: black;
+	background-color: white;
+}
+
+
+#delete-schedule {
+	font-size: 1em;
+	color: black;
+	background-color: white;
+}
+#member-search {
+	margin-left: 110px;
+	font-size: 1em;
+	color: black;
+	background-color: white;
+}

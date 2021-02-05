@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="trainerDAO">
+
+	<typeAlias alias="trainerVO" type="gymManager.admin.trainer.TrainerVO"/>
+	
+	<!-- 모든 트레이너 정보 조회 -->
+	<select id="trainerDAO.selectTrainerList" resultClass="trainerVO">
+		SELECT *
+		FROM   TRAINER
+		WHERE  1=1
+	</select>
+	
+	<!-- 트레이너 아이디로 정보 조회 -->
+	<select id="trainerDAO.selectTrainerInfo" parameterClass="String" resultClass="trainerVO">
+		SELECT *
+		FROM   TRAINER
+		WHERE  TID		= #tid#
+	</select>
+	
+	<!-- 트레이너 정보 수정 -->
+	<update id="trainerDAO.updateTrainerInfo" parameterClass="trainerVO">
+		UPDATE TRAINER
+		SET    NAME            = #name#
+		    ,  TELNO           = #telNo#
+		    ,  GEN             = #gen#
+		    ,  WORK_START      = #work_start#
+		    ,  WORK_END        = #work_end#
+		    ,  MODIFY_DTM      = #modify_dtm#
+		    ,  MODIFY_USR_ID   = #modify_usr_id#
+		    ,  MODIFY_USR_IP   = #modify_usr_ip# 
+		WHERE  TID = #tid#   
+	</update>
+	
+	<!-- 트레이너 개인 수업 횟수 갱신 -->
+	<update id="trainerDAO.updateTrainerPTCount" parameterClass="String">
+		UPDATE TRAINER
+		SET    PT_COUNT            = PT_COUNT + 1
+		WHERE  TID = #tid#   
+	</update>
+	
+	<!-- 트레이너 정보 등록 -->
+	<insert id="trainerDAO.insertTrainerInfo" parameterClass="trainerVO">
+		INSERT INTO TRAINER
+		(
+					TID          	,	NAME    		  ,	  GEN             
+				,	PW  		    ,	TELNO   		  ,   PT_COUNT  		
+				,	WORK_START  	,	WORK_END          ,   USE_YN  		
+				,	REG_DTM  		,	REG_USR_ID		  ,	  REG_USR_IP      
+				,	MODIFY_DTM		,	MODIFY_USR_ID	  ,	  MODIFY_USR_IP
+			)
+			VALUES
+			(
+					#tid#           ,	#name#	          ,   #gen# 		 	
+				,	#pw#            ,	#telNo#	          ,	  '0'		
+				,	#work_start#	,	#work_end#		  ,	  'Y'      
+				,	#reg_dtm#       ,	#reg_usr_id#	  ,	  #reg_usr_ip#			
+			    ,	#modify_dtm#    ,	#modify_usr_id#   ,	  #modify_usr_ip# 
+			)
+	</insert>
+	
+	<!-- 트레이너 정보 삭제 -->
+	<delete id="trainerDAO.deleteTrainerInfo" parameterClass="trainerVO">
+		DELETE
+		FROM   TRAINER
+		WHERE  TID     = #tid# 
+	</delete>	
+</sqlMap>

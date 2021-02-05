@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="diaryDAO">
+	<typeAlias alias="diaryVO" type="gymManager.admin.diary.DiaryVO"/>
+
+	<!-- 수업 일정 정보 조회 -->
+	<select id="diaryDAO.selectDiaryInfo" parameterClass="diaryVO" resultClass="diaryVO">
+		SELECT *
+		FROM   DIARY
+		WHERE  CID    = #cid#
+		AND    MID    = #mid#
+		AND    TID    = #tid#
+	</select>
+	
+	<!-- 수업 일정 정보 조회 -->
+	<select id="diaryDAO.selectDiaryExist" parameterClass="int" resultClass="diaryVO">
+		SELECT *
+		FROM   DIARY
+		WHERE  CID    = #cid#
+	</select>
+	
+	<!-- 수업일지 정보 등록 -->
+	<insert id="diaryDAO.insertDiaryInfo" parameterClass="diaryVO">
+		INSERT INTO DIARY
+		(
+					CID	        	,	MID     		  ,	  TID               ,	CONTENTS
+				,	USE_YN  		,	REG_DTM  		  ,	  REG_USR_ID		,	REG_USR_IP      
+				,	MODIFY_DTM		,   MODIFY_USR_ID	  ,	  MODIFY_USR_IP
+			)
+			VALUES
+			(
+					#cid#           ,	#mid#	          ,   #tid#          	,	#contents# 
+			    ,   'Y'	            ,	#reg_dtm#		  ,	  #reg_usr_id#	    ,	#reg_usr_ip#    
+			    ,	#modify_dtm#    ,   #modify_usr_id#	  ,	  #modify_usr_ip#	    		
+			)
+	</insert>
+	
+	<!-- 수업일지 내용 수정 -->
+	<update id="diaryDAO.updateDiaryInfo" parameterClass="diaryVO">
+		UPDATE DIARY
+		SET    CONTENTS        = #contents#
+		WHERE  CID             = #cid#
+		AND    MID             = #mid#
+		AND    TID             = #tid#   
+	</update>
+	
+	<!-- 수업일지 정보 삭제 -->
+	<delete id="diaryDAO.deleteDiaryInfo" parameterClass="diaryVO">
+		DELETE
+		FROM   DIARY
+		WHERE  CID             = #cid#
+		AND    MID             = #mid#
+		AND    TID             = #tid#  
+	</delete>
+</sqlMap>

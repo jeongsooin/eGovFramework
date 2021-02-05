@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="scheduleDAO">
+
+	<typeAlias alias="scheduleVO" type="gymManager.admin.shcedule.ScheduleVO"/>
+	
+	<!-- 모든 수업일정 정보 조회 -->
+	<select id="scheduleDAO.selectScheduleList" resultClass="scheduleVO">
+		SELECT *
+		FROM   CLASS
+		WHERE  1=1
+	</select>
+	
+	<!-- 특정 회원의 수업 일정 정보 모두 조회 -->
+	<select id="scheduleDAO.selectScheduleMember" parameterClass="int" resultClass="scheduleVO">
+		SELECT *
+		FROM   CLASS
+		WHERE  MID    = #mid#
+	</select>
+
+	<!-- 특정 트레이너의 수업 일정 정보 모두 조회 -->
+	<select id="scheduleDAO.selectScheduleTrainer" parameterClass="String" resultClass="scheduleVO">
+		SELECT *
+		FROM   CLASS
+		WHERE  TID    = #tid#
+	</select>
+	
+	<!-- 수업일정 정보 등록 -->
+	<insert id="scheduleDAO.insertScheduleInfo" parameterClass="scheduleVO">
+		INSERT INTO CLASS
+		(
+					MID	        	,	TID     		  ,	  CLASS_DATE        ,	CLASS_TIME
+				,   CLASS_TYPE      ,	USE_YN  		  ,	  REG_DTM  		    ,	REG_USR_ID		
+				,	REG_USR_IP      ,	MODIFY_DTM		  ,	  MODIFY_USR_ID	    ,	MODIFY_USR_IP
+			)
+			VALUES
+			(
+					#mid#           ,	#tid#	          ,   #class_date#  	,	#class_time# 
+			    ,	#class_type#    ,   'Y'	              ,	  #reg_dtm#		    ,	#reg_usr_id#	    
+			    ,	#reg_usr_ip#    ,	#modify_dtm#      ,   #modify_usr_id#	,	#modify_usr_ip#	    		
+			)
+	</insert>
+	
+	<!-- 수업일정 정보 수정 -->
+	<update id="scheduleDAO.updateScheduleInfo" parameterClass="scheduleVO">
+		UPDATE CLASS
+		SET    MID             = #mid#
+		    ,  TID             = #tid#
+		    ,  CLASS_DATE      = #class_date#
+		    ,  CLASS_TIME      = #class_time#
+		    ,  CLASS_TYPE      = #class_type#
+		    ,  MODIFY_DTM      = #modify_dtm#
+		    ,  MODIFY_USR_ID   = #modify_usr_id#
+		    ,  MODIFY_USR_IP   = #modify_usr_ip# 
+		WHERE  CID = #cid#   
+	</update>
+	
+	<!-- 수업일정 정보 삭제 -->
+	<delete id="scheduleDAO.deleteScheduleInfo" parameterClass="scheduleVO">
+		DELETE
+		FROM   CLASS
+		WHERE  CID     = #cid# 
+	</delete>	
+</sqlMap>

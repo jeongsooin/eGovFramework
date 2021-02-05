@@ -1,0 +1,19 @@
+* Filter vs Listener vs Interceptor
+ 1) 기능
+ 2) 용도
+ 3) 구조도
+ 4) 고찰 - 현재 로그인 한 사용자를 검사하는 LoginCheckFilter 존재. PasswordEcrypFilter를 구현해서 
+    입력한 비밀번호 암호화하여 DB에 전송하는 방법도 생각 중
+* SessionListener
+ => 세션이 생성되고 제거되는 이벤트 처리
+* Transaction Handling 
+ 1) Service Layer에서 트랜잭션 관리하도록 설정
+     => 특정 업무를 수행하는 비즈니스 로직을 구현한 메소드 단위로 Commit or Rollback
+ 2) 모든 ServiceImpl 마다 try - catch 하며 Transacion 단위를 만들면 코드 반복 및 수정 관리 불편
+    => Transactional Connection(AutoCommit=false)에 대한 Commit, Rollback, Open, Close 등의 동작을 하는
+         추상 클래스 작성 후 상속받아서 트랜잭션 관리
+ 3) 이미 공통된 기능(기본적인 select, insert, update, delete)을 하는 메소드를 추출해서 구현한 추상클래스 존재
+     => 상속은 한 개의 클래스만 가능. 그럼 각 트랜잭션 단위를 관리할 추상 클래스는 어떻게 관계를 맺어야 할까?
+
+** DBCP Connection 관련 메소드 찾아보기
+** Spring PlatFormTransactoin Manager 찾아보기

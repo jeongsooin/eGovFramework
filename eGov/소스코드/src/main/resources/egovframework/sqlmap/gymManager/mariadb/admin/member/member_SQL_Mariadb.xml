@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberDAO">
+
+	<typeAlias alias="memberVO" type="gymManager.admin.member.MemberVO"/>
+	
+	<!-- 모든 회원 정보 조회 -->
+	<select id="memberDAO.selectMemberList" resultClass="memberVO">
+		SELECT *
+		FROM   MEMBER
+		WHERE  1=1
+	</select>
+	
+	<!-- 특정 회원 정보 조회 -->
+	<select id="memberDAO.selectMemberInfo" parameterClass="int" resultClass="memberVO">
+		SELECT *
+		FROM   MEMBER
+		WHERE  MID = #mid#
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="memberDAO.updateMemberInfo" parameterClass="memberVO">
+		UPDATE MEMBER
+		SET    NAME            = #name#
+		    ,  TELNO           = #telNo#
+		    ,  GEN             = #gen#
+		    ,  ZIP_CD          = #zip_cd#
+		    ,  LOAD_ADR        = #load_adr#
+		    ,  DET_ADR         = #det_adr#
+		    ,  MBRS_START      = #mbrs_start#
+		    ,  MBRS_END        = #mbrs_end#
+		    ,  PT_COUNT        = #pt_count#
+		    ,  MODIFY_DTM      = #modify_dtm#
+		    ,  MODIFY_USR_ID   = #modify_usr_id#
+		    ,  MODIFY_USR_IP   = #modify_usr_ip# 
+		WHERE  MID = #mid#   
+	</update>
+	
+	<!-- 회원 개인수업횟수 갱신 -->
+	<update id="memberDAO.updateMemberPTCount" parameterClass="int">
+		UPDATE MEMBER
+		SET    PT_COUNT        = PT_COUNT - 1
+		WHERE  MID = #mid#   
+	</update>
+	
+	<!-- 회원 정보 등록 -->
+	<insert id="memberDAO.insertMemberInfo" parameterClass="memberVO">
+		INSERT INTO MEMBER
+		(
+					NAME        	,	TELNO    		,	GEN             ,	ZIP_CD  		
+				,	LOAD_ADR 		,	DET_ADR  		,	MBRS_START  	,	MBRS_END        
+				,	PT_COUNT  		,	USE_YN  		,	REG_DTM  		,	REG_USR_ID		
+				,	REG_USR_IP      ,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
+			)
+			VALUES
+			(
+					#name#          ,	#telNo#	        ,	#gen# 		 	,	#zip_cd# 
+			    ,	#load_adr#	    ,	#det_adr#		,	#mbrs_start#	,	#mbrs_end#		
+			    ,	#pt_count#      ,	'Y'			    ,	#reg_dtm#	    ,	#reg_usr_id#			
+			    ,	#reg_usr_ip#    ,	#modify_dtm#    ,	#modify_usr_id# ,	#modify_usr_ip#	
+			)
+	</insert>
+	
+	<!-- 회원 정보 삭제 -->
+	<delete id="memberDAO.deleteMemberInfo" parameterClass="memberVO">
+		DELETE
+		FROM   MEMBER
+		WHERE  MID     = #mid# 
+	</delete>	
+	
+</sqlMap>

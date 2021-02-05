@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="lockerDAO">
+	<typeAlias alias="lockerVO" type="gymManager.admin.locker.LockerVO"/>
+	
+	<!-- 모든 사물함 정보 조회 -->
+	<select id="lockerDAO.selectLockerList" resultClass="lockerVO">
+		SELECT *
+		FROM   LOCKER
+		WHERE  1=1
+	</select>
+	
+	<!-- 회원번호로 검색한 사물함의 정보 -->
+	<select id="lockerDAO.selectLockerInfo" parameterClass="int" resultClass="lockerVO">
+		SELECT *
+		FROM   LOCKER
+		WHERE  MID             = #mid#
+	</select>
+	
+	<!-- 사물함에 회원 배정 또는 배정 정보 수정 -->
+	<update id="lockerDAO.updateLockerInfo" parameterClass="lockerVO">
+		UPDATE LOCKER
+		SET    MID             = #mid#
+		    ,  START_DTM       = #start_dtm#
+		    ,  END_DTM         = #end_dtm#
+		    ,  MODIFY_DTM      = #modify_dtm#
+		    ,  MODIFY_USR_ID   = #modify_usr_id#
+		    ,  MODIFY_USR_IP   = #modify_usr_ip# 
+		WHERE  LID = #lid#
+	</update>
+	
+	<!-- 사물함 배정 정보 삭제(reset) -->
+	<update id="lockerDAO.resetLockerInfo" parameterClass="lockerVO">
+		UPDATE LOCKER
+		SET    MID             = '0'
+		    ,  START_DTM       = null
+		    ,  END_DTM         = null
+		    ,  MODIFY_DTM      = #modify_dtm#
+		    ,  MODIFY_USR_ID   = #modify_usr_id#
+		    ,  MODIFY_USR_IP   = #modify_usr_ip#   
+		WHERE  LID = #lid#          
+	</update>
+</sqlMap>

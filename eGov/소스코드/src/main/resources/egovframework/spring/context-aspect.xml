@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!-- web.xml 리스너에서 비즈니스 레이어를 구동하면서 참조하는 설정파일 첫번째 context-aspect.xml -->
+
+	<!-- AOP 설정 : 공통적으로 사용되는 메소드들은 xml 설정으로 사용 가능 -->
+	<!-- <aop:pointcut/> : 호출가능한 비즈니스 메소드를 필터링 -->
+	<!-- egovframework.example 패키지 하위에 있는/ impl로 끝나는 패키지의/ 클래스명이 Impl로 끝나는 클래스의 모든 메소드가 대상 -->
+	<!-- <aop:aspect/> : 어느 시점에 어떤 메소드를 사용할지 설정한다 -->
+	<aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(* gymManager.*Impl.*(..)) or execution(* egovframework.com..impl.*Impl.*(..))" />
+                                                    
+		<aop:aspect ref="exceptionTransfer">
+			<aop:after-throwing throwing="exception" pointcut-ref="serviceMethod" method="transfer" />
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="exceptionTransfer" class="egovframework.rte.fdl.cmmn.aspect.ExceptionTransfer">
+		<property name="exceptionHandlerService">
+			<list>
+				<ref bean="defaultExceptionHandleManager" />
+				<ref bean="otherExceptionHandleManager" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="defaultExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="egovHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="otherExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="otherHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="egovHandler" class="egovframework.com.cmm.EgovComExcepHndlr" />
+	<bean id="otherHandler" class="egovframework.com.cmm.EgovComOthersExcepHndlr" />		
+	
+</beans>

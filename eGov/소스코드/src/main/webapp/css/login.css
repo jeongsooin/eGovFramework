@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Do+Hyeon|Lobster+Two|Marvel|Nanum+Myeongjo|Noto+Serif+KR|Oleo+Script|Oswald|Song+Myung|Yellowtail');
+
+html, body {
+	height: 100%;
+}
+
+body {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #2C3E50;
+}
+
+.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+	background-color: rgba(255, 255, 255, .2);
+	border: .05rem solid #fff;
+	border-radius: 10px;
+	font-family: 'Marvel', sans-serif;
+	color: white;
+}
+
+.form-signin .checkbox {
+	font-weight: 400;
+}
+
+.form-signin .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+
+.form-signin p {
+	color: white;
+}
+
+.form-signin input[type="email"] {
+	font-family: 'Marvel', sans-serif;
+	margin-bottom: -1px;
+	border-radius: 10px;
+}
+
+.form-signin input[type="password"] {
+	font-family: 'Marvel', sans-serif;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+#signup {
+	font-family: 'Marvel', sans-serif;
+	font-weight: none;
+	color: white;
+}
+
+#nlogin {
+	font-family: 'Marvel', sans-serif;
+	margin-bottom: 30px;
+	font-weight: none;
+}
+
+#copyright {
+	color: black;
+}
+
+.nav-link {
+	font-family: 'Oleo Script', cursive;
+}
+
+.masthead-brand {
+	font-family: 'Yellowtail', cursive;
+}
